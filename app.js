@@ -1,14 +1,28 @@
-const express = require('express')
-const app = express()
-const PORT = process.env.PORT || 3000
-const path =require('path')
 
-app.use(express.static(path.join(__dirname, 'public')))
+const express = require('express');
+const path = require('path');
 
-app.get('/api/saludo', (request, response)=>{
-   response.json({ mensaje: 'hola desde mi app AEHR)' })
-})
+const app = express();
+const PORT = process.env.PORT || 3000;
 
-app.listen(PORT, ()=>{
-    console.log(`servidor corriendo en https://localhost:${PORT}`)
-})
+const publicPath = path.join(__dirname, 'public');
+
+// Servir archivos HTML, CSS y otros archivos estáticos
+app.use(express.static(publicPath));
+
+// Página principal
+app.get('/', (req, res) => {
+  res.sendFile(path.join(publicPath, 'index.html'));
+});
+
+// Ruta de prueba del backend
+app.get('/api/saludo', (req, res) => {
+  res.json({
+    mensaje: 'Hola desde mi app AEHR'
+  });
+});
+
+// Iniciar servidor HTTP
+app.listen(PORT, () => {
+  console.log(`Servidor corriendo en http://localhost:${PORT}`);
+});
